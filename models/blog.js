@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+/*
 mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
@@ -13,6 +13,7 @@ mongoose.connect(url)
   .catch((error) => {
     console.log('error connecting to MongoDB:', error.message)
   })
+*/
 
 const blogSchema = new mongoose.Schema({
   title: String,
