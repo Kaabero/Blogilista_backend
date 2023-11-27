@@ -11,8 +11,17 @@ const totalLikes = (blogs) => {
     console.log('total', totalLikes)
     return totalLikes
 }
+
+const favoriteBlog = (blogs) => {
+    const likes = blogs.map(blog => blog.likes)
+    const isMostLiked = (element) => element == Math.max(...likes)
+    const winner = blogs[likes.findIndex(isMostLiked)]
+    console.log('winner', winner)
+    return winner
+}
   
 module.exports = {
     dummy,
     totalLikes,
+    favoriteBlog,
 }
