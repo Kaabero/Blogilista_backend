@@ -128,7 +128,7 @@ describe('most likes', () => {
     expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 5 })
   })
 
-  test('of empty list is zero', () => {
+  test('of empty list is undefined', () => {
     expect(listHelper.mostLikes([])).toEqual(undefined)
   })
 
