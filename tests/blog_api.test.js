@@ -40,6 +40,26 @@ test('all blogs are returned', async () => {
     expect(response.body).toHaveLength(initialBlogs.length)
   })
   
+  test('there is an identification field', async () => {
+    const response = await api.get('/api/blogs')
+    console.log('id', response.body[0].id)
+  
+    expect(response.body[0].id).toBeDefined()
+  })
+
+  test('the identification field is named as id', async () => {
+    const response = await api.get('/api/blogs')
+    console.log('body', response.body[0])
+    console.log('type', typeof(response.body)[0])
+    console.log('keys', Object.keys(response.body[0]))
+    console.log('id_key', Object.keys(response.body[0])[4])
+    console.log('type', typeof(Object.keys(response.body[0])[4]))
+    const id_key = Object.keys(response.body[0])[4]
+  
+    expect(id_key).toBe('id')
+  })
+
+
 
 afterAll(async () => {
   await mongoose.connection.close()
