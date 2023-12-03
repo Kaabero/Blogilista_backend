@@ -81,6 +81,30 @@ test('a valid blog can be added ', async () => {
     expect(titles).toContain(
       'TDD harms architecture'
     )
+})
+
+test('adding blog without likes is set with zero likes', async () => {
+    const newBlog = {
+        title: 'TDD harms architecture',
+        author: 'Robert C. Martin',
+        url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html'
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/blogs')
+
+    const likes = response.body.map(({ title, likes }) => ({title: title, likes: likes}))
+    
+    console.log('likes', likes)
+
+    const tddLikes = likes.find(item => item.title === 'TDD harms architecture')
+  
+    expect(tddLikes.likes).toBe(0)
   })
 
 afterAll(async () => {
