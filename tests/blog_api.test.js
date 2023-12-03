@@ -102,7 +102,7 @@ test('adding blog without likes is set with zero likes', async () => {
     
     console.log('likes', likes)
 
-    const tddLikes = likes.find(item => item.title === 'TDD harms architecture')
+    const tddLikes = likes.find(blog => blog.title === 'TDD harms architecture')
   
     expect(tddLikes.likes).toBe(0)
   })
