@@ -105,7 +105,41 @@ test('adding blog without likes is set with zero likes', async () => {
     const tddLikes = likes.find(blog => blog.title === 'TDD harms architecture')
   
     expect(tddLikes.likes).toBe(0)
-  })
+})
+
+test('blog without title is not added', async () => {
+    const newBlog = {
+        author: "Robert C. Martin",
+        url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+        likes: 1
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  
+    const response = await api.get('/api/blogs')
+  
+    expect(response.body).toHaveLength(initialBlogs.length)
+})
+
+test('blog without url is not added', async () => {
+    const newBlog = {
+        title: 'Type wars',
+        author: "Robert C. Martin",
+        likes: 1
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  
+    const response = await api.get('/api/blogs')
+  
+    expect(response.body).toHaveLength(initialBlogs.length)
+})
 
 afterAll(async () => {
   await mongoose.connection.close()
