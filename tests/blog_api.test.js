@@ -149,6 +149,36 @@ test('a blog can be deleted', async () => {
 })
 
 
+test('a blog can be edited', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToEdit = blogsAtStart[0]
+  console.log('start', blogToEdit)
+
+  const editedBlog = {
+    title: 'Type wars',
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html"
+  }
+  console.log('edited', editedBlog)
+
+  await api
+    .put(`/api/blogs/${blogToEdit.id}`)
+    .send(editedBlog)
+    .expect(200)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  console.log('editedlist', blogsAtEnd)
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+  const titles = blogsAtEnd.map(r => r.title)
+
+  expect(titles).toContain(editedBlog.title)
+  expect(titles).not.toContain(blogToEdit.title)
+})
+
+
 
 afterAll(async () => {
   await mongoose.connection.close()
