@@ -22,8 +22,20 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+  const blog = await Blog.findById(request.params.id)
+  console.log('blog', blog)
+  console.log('blog', blog.user)
+  const userid = jwt.verify(request.token, process.env.SECRET)
+  console.log('userid', userid.id)
+  if ( blog.user.toString() === userid.id.toString() ) {
+    await Blog.findByIdAndDelete(request.params.id)
+    response.status(204).end()
+  }
+  response.status(401).json({ error: 'authorization failed' })
+
+  /*
+  
+  */
 })
 
 
