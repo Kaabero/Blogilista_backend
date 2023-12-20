@@ -23,6 +23,8 @@ blogsRouter.get('/', async (request, response) => {
 
 })
 
+
+
 blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   console.log('blog', blog)
@@ -37,6 +39,16 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
     response.status(204).end()
   } else {
     response.status(401).json({ error: 'authorization failed' })
+  }
+})
+
+
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog) {
+    response.json(blog)
+  } else {
+    response.status(404).end()
   }
 })
 
